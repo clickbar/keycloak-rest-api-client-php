@@ -35,8 +35,7 @@ class Keycloak
 
     public function __construct(
         private readonly string $baseUrl,
-        private readonly string $username,
-        private readonly string $password,
+        private readonly string $clientSecret,
         private readonly TokenStorageInterface $tokenStorage = new InMemory(),
         ?ClientInterface $guzzleClient = new GuzzleClient(),
     ) {
@@ -51,14 +50,9 @@ class Keycloak
         return $this->baseUrl;
     }
 
-    public function getUsername(): string
+    public function getClientSecret(): string
     {
-        return $this->username;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
+        return $this->clientSecret;
     }
 
     public function getVersion(): string
