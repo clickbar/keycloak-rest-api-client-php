@@ -61,7 +61,9 @@ class Client
         $parser = (new Token\Parser(new JoseEncoder()));
 
         $this->tokenStorage->storeAccessToken($parser->parse($tokens['access_token']));
-        $this->tokenStorage->storeRefreshToken($parser->parse($tokens['refresh_token']));
+        if ($tokens['refresh_token'] !== null) {
+            $this->tokenStorage->storeRefreshToken($parser->parse($tokens['refresh_token']));
+        }
     }
 
     /**
@@ -69,28 +71,37 @@ class Client
      */
     private function fetchTokens(): array
     {
-        try {
-            $response = $this->httpClient->request(
-                'POST',
-                $this->keycloak->getBaseUrl() . '/realms/master/protocol/openid-connect/token',
-                [
-                    'form_params' => [
-                        'refresh_token' => $this->tokenStorage->retrieveRefreshToken()?->toString(),
-                        'client_id' => 'admin-cli',
-                        'grant_type' => 'refresh_token',
+        $refreshToken = $this->tokenStorage->retrieveRefreshToken();
+        $response = null;
+
+        if ($refreshToken) {
+            // try refreshing the token
+            try {
+                $response = $this->httpClient->request(
+                    'POST',
+                    $this->keycloak->getBaseUrl() . '/realms/master/protocol/openid-connect/token',
+                    [
+                        'form_params' => [
+                            'refresh_token' => $this->tokenStorage->retrieveRefreshToken()?->toString(),
+                            'client_id' => 'admin-cli',
+                            'grant_type' => 'refresh_token',
+                        ],
                     ],
-                ],
-            );
-        } catch (ClientException $e) {
+                );
+            } catch (ClientException $e) {
+
+            }
+        }
+
+        if ($response === null) {
             $response = $this->httpClient->request(
                 'POST',
                 $this->keycloak->getBaseUrl() . '/realms/master/protocol/openid-connect/token',
                 [
                     'form_params' => [
-                        'username' => $this->keycloak->getUsername(),
-                        'password' => $this->keycloak->getPassword(),
+                        'client_secret' => $this->keycloak->getClientSecret(),
                         'client_id' => 'admin-cli',
-                        'grant_type' => 'password',
+                        'grant_type' => 'client_credentials',
                     ],
                 ]
             );
@@ -104,7 +115,7 @@ class Client
 
         return [
             'access_token' => $tokens['access_token'],
-            'refresh_token' => $tokens['refresh_token'],
+            'refresh_token' => $tokens['refresh_token'] ?? null,
         ];
     }
 }
