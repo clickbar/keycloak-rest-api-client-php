@@ -116,5 +116,6 @@ class AttributeNormalizerTest extends TestCase
         yield ['24.0.0'];
         yield ['25.0.0'];
         yield ['26.0.0'];
+        yield ['26.0.5'];
     }
 }

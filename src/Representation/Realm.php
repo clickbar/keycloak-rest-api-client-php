@@ -19,6 +19,7 @@ use Fschmtt\Keycloak\Collection\ScopeMappingCollection;
 use Fschmtt\Keycloak\Collection\UserCollection;
 use Fschmtt\Keycloak\Collection\UserFederationMapperCollection;
 use Fschmtt\Keycloak\Collection\UserFederationProviderCollection;
+use Fschmtt\Keycloak\Enum\BruteForceStrategy;
 use Fschmtt\Keycloak\Type\Map;
 
 /**
@@ -82,6 +83,7 @@ use Fschmtt\Keycloak\Type\Map;
  * @method int|null getMaxDeltaTimeSeconds()
  * @method int|null getMaxFailureWaitSeconds()
  * @method int|null getMaxTemporaryLockouts()
+ * @method BruteForceStrategy|null getBruteForceStrategy()
  * @method int|null getMinimumQuickLoginWaitSeconds()
  * @method int|null getNotBefore()
  * @method int|null getOauth2DeviceCodeLifespan()
@@ -210,6 +212,7 @@ use Fschmtt\Keycloak\Type\Map;
  * @method self withMaxDeltaTimeSeconds(?int $value)
  * @method self withMaxFailureWaitSeconds(?int $value)
  * @method self withMaxTemporaryLockouts(?int $value)
+ * @method self withBruteForceStrategy(?BruteForceStrategy $bruteForceStrategy)
  * @method self withMinimumQuickLoginWaitSeconds(?int $value)
  * @method self withNotBefore(?int $value)
  * @method self withOauth2DeviceCodeLifespan(?int $value)
@@ -356,6 +359,8 @@ class Realm extends Representation
         protected ?int $maxFailureWaitSeconds = null,
         #[Since('24.0.0')]
         protected ?int $maxTemporaryLockouts = null,
+        #[Since('26.0.5')]
+        protected ?BruteForceStrategy $bruteForceStrategy = null,
         protected ?int $minimumQuickLoginWaitSeconds = null,
         protected ?int $notBefore = null,
         protected ?int $oauth2DeviceCodeLifespan = null,
