@@ -31,7 +31,7 @@ jobs:
         run: >
           docker run -d
           -p 8080:8080
-          -v ${GITHUB_WORKSPACE}/tests/Fixtures/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
+          -v ${{ github.workspace }}/tests/Fixtures/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
           --name keycloak
           quay.io/keycloak/keycloak:${{ matrix.keycloak }}
           start-dev --import-realm
