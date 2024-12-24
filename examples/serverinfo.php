@@ -8,8 +8,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $keycloak = new Keycloak(
     $_SERVER['KEYCLOAK_BASE_URL'] ?? 'http://keycloak:8080',
-    'admin',
-    'admin',
+    'fNnTXL10wBpDemO4whKybDCFrpbwpTg5',
 );
 
 $serverInfo = $keycloak->serverInfo()->get();

@@ -33,8 +33,7 @@ class MyCustomResource extends \Fschmtt\Keycloak\Resource\Resource
 
 $keycloak = new Keycloak(
     $_SERVER['KEYCLOAK_BASE_URL'] ?? 'http://keycloak:8080',
-    'admin',
-    'admin',
+    'fNnTXL10wBpDemO4whKybDCFrpbwpTg5',
 );
 
 /** @var MyCustomResource $myCustomResource */
