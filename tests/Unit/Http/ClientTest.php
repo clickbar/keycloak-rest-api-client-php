@@ -25,9 +25,8 @@ class ClientTest extends TestCase
     protected function setUp(): void
     {
         $this->keycloak = new Keycloak(
-            'http://keycloak:8080',
-            'admin',
-            'admin',
+            'http://127.0.0.1:8080',
+            'fNnTXL10wBpDemO4whKybDCFrpbwpTg5',
         );
     }
 
@@ -58,10 +57,9 @@ class ClientTest extends TestCase
         );
 
         $httpClient = $this->createMock(ClientInterface::class);
-        $httpClient->expects(static::exactly(3))
+        $httpClient->expects(static::exactly(2))
             ->method('request')
             ->willReturnOnConsecutiveCalls(
-                $this->throwException($this->createMock(ClientException::class)),
                 $authorizationResponse,
                 $realmsResponse,
             );

@@ -14,9 +14,8 @@ trait IntegrationTestBehaviour
     {
         if (!$this->keycloak) {
             $this->keycloak = new Keycloak(
-                $_SERVER['KEYCLOAK_BASE_URL'] ?? 'http://keycloak:8080',
-                'admin',
-                'admin',
+                $_SERVER['KEYCLOAK_BASE_URL'] ?? 'http://127.0.0.1:8080',
+                'fNnTXL10wBpDemO4whKybDCFrpbwpTg5',
             );
         }
 

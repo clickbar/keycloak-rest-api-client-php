@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        keycloak: [ 24.0.0, 25.0.0, 26.0.0 ]
+        keycloak: [ 24.0.0, 25.0.0, 26.0.0, 26.0.7 ]
         php: [ 8.1 ]
 
     env:
@@ -31,11 +31,10 @@ jobs:
         run: >
           docker run -d
           -p 8080:8080
-          -e KEYCLOAK_ADMIN=admin
-          -e KEYCLOAK_ADMIN_PASSWORD=admin
+          -v $PWD/tests/Fixtures/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
           --name keycloak
           quay.io/keycloak/keycloak:${{ matrix.keycloak }}
-          start-dev
+          start-dev --import-realm
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress

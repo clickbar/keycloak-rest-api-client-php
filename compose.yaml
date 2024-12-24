@@ -1,15 +1,11 @@
 services:
-  php:
-    image: php:8.2-cli
-    volumes:
-    - .:/app:rw
-    working_dir: /app
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.0.0
-    command: start-dev
+    image: quay.io/keycloak/keycloak:26.0.7
+    command: start-dev --import-realm
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      JAVA_OPTS: "-XX:UseSVE=0"
+    volumes:
+      - ./tests/Fixtures/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
     ports:
       - '8080:8080'
